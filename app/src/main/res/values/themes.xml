@@ -1,0 +1,16 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.FDCare" parent="Theme.Material3.Dark">
+        <!-- Customize your light theme here. -->
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/buttonColor</item>
+        <item name="colorPrimaryVariant">@color/backColor</item>
+        <item name="colorOnPrimary">@color/backColor</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/backColor</item>
+        <item name="colorSecondaryVariant">@color/backColor</item>
+        <item name="colorOnSecondary">@color/backColor</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+    </style>
+</resources>

@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">FD Care</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="default_web_client_id">AIzaSyB0vLS0PjHSXQZpLuFZSDcgf62SEc9LURM</string>
+</resources>

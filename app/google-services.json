@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "860108815927",
+    "project_id": "fd-care",
+    "storage_bucket": "fd-care.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:860108815927:android:2ef4039319f8967c3609b2",
+        "android_client_info": {
+          "package_name": "com.example.fdcare"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0vLS0PjHSXQZpLuFZSDcgf62SEc9LURM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
