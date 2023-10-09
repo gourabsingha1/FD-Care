@@ -1,9 +1,10 @@
 package com.example.fdcare.activity
 
+import android.app.ProgressDialog
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.example.fdcare.R
 import com.example.fdcare.databinding.ActivityProfileBinding
@@ -14,11 +15,10 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import java.lang.Exception
 
-// doesnt work
-
 class ProfileActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityProfileBinding
+    private lateinit var progressDialog: ProgressDialog
 
     private companion object {
         private const val TAG = "ACCOUNT_TAG"
@@ -27,10 +27,19 @@ class ProfileActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityProfileBinding.inflate(layoutInflater)
-        setContentView(R.layout.activity_profile)
+        setContentView(binding.root)
 
-        binding.button.setOnClickListener {
-            Toast.makeText(this, "Camera or Storage or both permissions denied", Toast.LENGTH_LONG).show()
+        // Hide action bar
+        supportActionBar?.hide()
+
+        // Setup ProgressDialogue to show while loading user profile
+        progressDialog = ProgressDialog(this)
+        progressDialog.setCanceledOnTouchOutside(false)
+
+        // Go back
+        binding.ivProfileBack.setOnClickListener {
+            startActivity(Intent(this, HomeActivity::class.java))
+            finish()
         }
 
         // Load Data
@@ -38,6 +47,8 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun loadMyData() {
+        progressDialog.setMessage("Loading...")
+        progressDialog.show()
         val firebaseAuth = FirebaseAuth.getInstance()
         val ref = FirebaseDatabase.getInstance().getReference("Users")
         ref.child(firebaseAuth.uid!!).addValueEventListener(object: ValueEventListener {
@@ -55,11 +66,9 @@ class ProfileActivity : AppCompatActivity() {
                 val emergencyEmail = "${snapshot.child("emergencyEmail").value}"
                 val emergencyPhoneCode = "${snapshot.child("emergencyPhoneCode").value}"
                 val emergencyPhoneNumber = "${snapshot.child("emergencyPhoneNumber").value}"
+                val emergencyPhone = emergencyPhoneCode + emergencyPhoneNumber
 
                 // set data
-                binding.tvProfileName.text = name
-                binding.tvProfileEmail.text = email
-                binding.tvProfilePhone.text = phone
                 try {
                     Glide.with(this@ProfileActivity)
                         .load(profileImageUrl)
@@ -68,6 +77,14 @@ class ProfileActivity : AppCompatActivity() {
                 } catch (e : Exception) {
                     Log.e(ProfileActivity.TAG, "onDataChange: ", e)
                 }
+                binding.tvProfileName.text = "Name:\t $name"
+                binding.tvProfileEmail.text = "Email:\t $email"
+                binding.tvProfilePhone.text = "Phone:\t $phone"
+                binding.tvProfileEmergencyName.text = "Emergency name:\t $emergencyName"
+                binding.tvProfileEmergencyEmail.text = "Emergency email:\t $emergencyEmail"
+                binding.tvProfileEmergencyPhone.text = "Emergency phone:\t$emergencyPhone"
+
+                progressDialog.dismiss()
             }
 
             override fun onCancelled(error: DatabaseError) {

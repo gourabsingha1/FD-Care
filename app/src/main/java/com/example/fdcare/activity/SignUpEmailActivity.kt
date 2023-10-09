@@ -136,16 +136,16 @@ class SignUpEmailActivity : AppCompatActivity() {
         hashMap["emergencyPhoneCode"] = emergencyPhoneCode
         hashMap["emergencyPhoneNumber"] = emergencyPhoneNumber
 
+        progressDialog.dismiss()
+
         // set data to firebase realtime db
         val reference = FirebaseDatabase.getInstance().getReference("Users")
         reference.child(registeredUserId!!).setValue(hashMap).addOnSuccessListener {
-            progressDialog.dismiss()
             Toast.makeText(this, "Successfully Signed Up", Toast.LENGTH_SHORT).show()
             startActivity(Intent(this, HomeActivity::class.java))
             finishAffinity()
         }.addOnFailureListener { e ->
             Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show()
-            progressDialog.dismiss()
         }
     }
 }

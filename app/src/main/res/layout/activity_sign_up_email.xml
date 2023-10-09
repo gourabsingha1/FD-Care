@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,275 +8,280 @@
     android:padding="20dp"
     tools:context=".activity.SignUpEmailActivity">
 
-    <ImageView
-        android:id="@+id/ivSignupBack"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:src="@drawable/baseline_arrow_back_ios_24"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tvSignupCreateANewAccount"
-        style="@style/TextAppearance.MaterialComponents.Body1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Create a new account"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tvSignupYourInformation"
-        style="@style/TextAppearance.MaterialComponents.Body1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="45dp"
-        android:text="Your Information: "
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tfSignUpName"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:textColorHint="@color/grey"
-        app:boxBackgroundColor="@color/backColor"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvSignupYourInformation">
+        android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/etSignupName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Name"
-            android:textColor="@color/white" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tfSignupEmail"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:textColorHint="@color/grey"
-        app:boxBackgroundColor="@color/backColor"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tfSignUpName">
-
-        <EditText
-            android:id="@+id/etSignupEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Email"
-            android:inputType="textEmailAddress"
-            android:textColor="@color/white" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <!--    Phone input layout-->
-    <RelativeLayout
-        android:id="@+id/rlSignupPhoneInput"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:visibility="visible"
-        app:layout_constraintTop_toBottomOf="@+id/tfSignupEmail"
-        tools:layout_editor_absoluteX="20dp">
-
-        <com.hbb20.CountryCodePicker
-            android:id="@+id/ccpSignup"
+        <ImageView
+            android:id="@+id/ivSignupBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:minWidth="60dp"
-            android:minHeight="56dp"
-            app:ccp_autoDetectCountry="true"
-            app:ccp_contentColor="@color/grey"
-            app:ccp_rememberLastSelection="true"
-            app:ccp_showFlag="false"
-            app:ccp_showNameCode="false" />
+            android:src="@drawable/baseline_arrow_back_ios_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvSignupCreateANewAccount"
+            style="@style/TextAppearance.MaterialComponents.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Create a new account"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvSignupYourInformation"
+            style="@style/TextAppearance.MaterialComponents.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Your Information: "
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSignupCreateANewAccount"/>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tfSignupPhone"
+            android:id="@+id/tfSignUpName"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/ccpSignup"
-            android:textColorHint="@color/grey">
+            android:layout_marginTop="10dp"
+            android:textColorHint="@color/grey"
+            app:boxBackgroundColor="@color/backColor"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSignupYourInformation">
 
             <EditText
-                android:id="@+id/etSignupPhone"
+                android:id="@+id/etSignupName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Phone"
-                android:inputType="phone"
+                android:hint="Name"
                 android:textColor="@color/white" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
-    </RelativeLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tfSignupPassword"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="94dp"
-        android:textColorHint="@color/grey"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tfSignupEmail"
-        app:passwordToggleEnabled="true">
-
-        <EditText
-            android:id="@+id/etSignupPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Password"
-            android:inputType="textPassword"
-            android:textColor="@color/white" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tfSignupConfirmPassword"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:textColorHint="@color/grey"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tfSignupPassword"
-        app:passwordToggleEnabled="true">
-
-        <EditText
-            android:id="@+id/etSignupConfirmPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Confirm Password"
-            android:inputType="textPassword"
-            android:textColor="@color/white" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <TextView
-        android:id="@+id/tvSignupEmergencyInformation"
-        style="@style/TextAppearance.MaterialComponents.Body1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:text="Emergency Information: "
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tfSignupConfirmPassword" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tfSignUpEmergencyName"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:textColorHint="@color/grey"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvSignupEmergencyInformation">
-
-        <EditText
-            android:id="@+id/etSignupEmergencyName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Name"
-            android:textColor="@color/white" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tfSignupEmergencyEmail"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:textColorHint="@color/grey"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tfSignUpEmergencyName">
-
-        <EditText
-            android:id="@+id/etSignupEmergencyEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Email"
-            android:inputType="textEmailAddress"
-            android:textColor="@color/white" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <!--    Phone input layout-->
-    <RelativeLayout
-        android:id="@+id/rlSignupEmergencyPhoneInput"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:visibility="visible"
-        app:layout_constraintTop_toBottomOf="@+id/tfSignupEmergencyEmail"
-        tools:layout_editor_absoluteX="20dp">
-
-        <com.hbb20.CountryCodePicker
-            android:id="@+id/ccpSignupEmergency"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:minWidth="60dp"
-            android:minHeight="56dp"
-            app:ccp_autoDetectCountry="true"
-            app:ccp_contentColor="@color/grey"
-            app:ccp_rememberLastSelection="true"
-            app:ccp_showFlag="false"
-            app:ccp_showNameCode="false" />
-
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tfSignupEmergencyPhone"
+            android:id="@+id/tfSignupEmail"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/ccpSignupEmergency"
-            android:textColorHint="@color/grey">
+            android:layout_marginTop="25dp"
+            android:textColorHint="@color/grey"
+            app:boxBackgroundColor="@color/backColor"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tfSignUpName">
 
             <EditText
-                android:id="@+id/etSignupEmergencyPhone"
+                android:id="@+id/etSignupEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Phone"
-                android:inputType="phone"
+                android:hint="Email"
+                android:inputType="textEmailAddress"
                 android:textColor="@color/white" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
-    </RelativeLayout>
+        <!--    Phone input layout-->
+        <RelativeLayout
+            android:id="@+id/rlSignupPhoneInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:visibility="visible"
+            app:layout_constraintTop_toBottomOf="@+id/tfSignupEmail"
+            tools:layout_editor_absoluteX="20dp">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnSignup"
-        android:layout_width="210dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="94dp"
-        android:text="Sign Up"
-        android:textColor="@color/white"
-        app:cornerRadius="30dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+            <com.hbb20.CountryCodePicker
+                android:id="@+id/ccpSignup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:minWidth="60dp"
+                android:minHeight="56dp"
+                app:ccp_autoDetectCountry="true"
+                app:ccp_contentColor="@color/grey"
+                app:ccp_rememberLastSelection="true"
+                app:ccp_showFlag="false"
+                app:ccp_showNameCode="false" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tfSignupPhone"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/ccpSignup"
+                android:textColorHint="@color/grey">
+
+                <EditText
+                    android:id="@+id/etSignupPhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Phone"
+                    android:inputType="phone"
+                    android:textColor="@color/white" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </RelativeLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tfSignupPassword"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="94dp"
+            android:textColorHint="@color/grey"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tfSignupEmail"
+            app:passwordToggleEnabled="true">
+
+            <EditText
+                android:id="@+id/etSignupPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:textColor="@color/white" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tfSignupConfirmPassword"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textColorHint="@color/grey"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tfSignupPassword"
+            app:passwordToggleEnabled="true">
+
+            <EditText
+                android:id="@+id/etSignupConfirmPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Confirm Password"
+                android:inputType="textPassword"
+                android:textColor="@color/white" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/tvSignupEmergencyInformation"
+            style="@style/TextAppearance.MaterialComponents.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="Emergency Information: "
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tfSignupConfirmPassword" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tfSignUpEmergencyName"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textColorHint="@color/grey"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSignupEmergencyInformation">
+
+            <EditText
+                android:id="@+id/etSignupEmergencyName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Name"
+                android:textColor="@color/white" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tfSignupEmergencyEmail"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textColorHint="@color/grey"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tfSignUpEmergencyName">
+
+            <EditText
+                android:id="@+id/etSignupEmergencyEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Email"
+                android:inputType="textEmailAddress"
+                android:textColor="@color/white" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--    Phone input layout-->
+        <RelativeLayout
+            android:id="@+id/rlSignupEmergencyPhoneInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:visibility="visible"
+            app:layout_constraintTop_toBottomOf="@+id/tfSignupEmergencyEmail"
+            tools:layout_editor_absoluteX="20dp">
+
+            <com.hbb20.CountryCodePicker
+                android:id="@+id/ccpSignupEmergency"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:minWidth="60dp"
+                android:minHeight="56dp"
+                app:ccp_autoDetectCountry="true"
+                app:ccp_contentColor="@color/grey"
+                app:ccp_rememberLastSelection="true"
+                app:ccp_showFlag="false"
+                app:ccp_showNameCode="false" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tfSignupEmergencyPhone"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/ccpSignupEmergency"
+                android:textColorHint="@color/grey">
+
+                <EditText
+                    android:id="@+id/etSignupEmergencyPhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Phone"
+                    android:inputType="phone"
+                    android:textColor="@color/white" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </RelativeLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSignup"
+            android:layout_width="210dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="96dp"
+            android:text="Sign Up"
+            android:textColor="@color/white"
+            app:cornerRadius="30dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tfSignupEmergencyEmail" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

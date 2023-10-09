@@ -70,9 +70,13 @@ class EditProfileActivity : AppCompatActivity() {
         }
     }
 
+    // load data on screen
     private fun loadMyData() {
+        progressDialog.setMessage("Loading...")
+        progressDialog.show()
+
         val ref = FirebaseDatabase.getInstance().getReference("Users")
-        ref.child(firebaseAuth.uid!!).addValueEventListener(object: ValueEventListener {
+        ref.child(firebaseAuth.uid!!).addValueEventListener(object : ValueEventListener {
 
             override fun onDataChange(snapshot: DataSnapshot) {
                 // get data
@@ -93,7 +97,7 @@ class EditProfileActivity : AppCompatActivity() {
                         .load(profileImageUrl)
                         .placeholder(R.drawable.ic_person_white)
                         .into(binding.ivEditProfileProfilePic)
-                } catch (e : Exception) {
+                } catch (e: Exception) {
                     Log.e(TAG, "onDataChange: ", e)
                 }
                 binding.etEditProfileName.setText(name)
@@ -101,7 +105,7 @@ class EditProfileActivity : AppCompatActivity() {
                 try {
                     val phoneCodeInt = phoneCode.replace("+", "").toInt()
                     binding.ccpEditProfile.setCountryForPhoneCode(phoneCodeInt)
-                } catch (e : Exception) {
+                } catch (e: Exception) {
                     Log.e(TAG, "onDataChange: ", e)
                 }
                 binding.etEditProfilePhone.setText(phoneNumber)
@@ -110,10 +114,12 @@ class EditProfileActivity : AppCompatActivity() {
                 try {
                     val phoneCodeInt = emergencyPhoneCode.replace("+", "").toInt()
                     binding.ccpEditProfileEmergency.setCountryForPhoneCode(phoneCodeInt)
-                } catch (e : Exception) {
+                } catch (e: Exception) {
                     Log.e(TAG, "onDataChange: ", e)
                 }
                 binding.etEditProfileEmergencyPhone.setText(emergencyPhoneNumber)
+
+                progressDialog.dismiss()
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -132,14 +138,19 @@ class EditProfileActivity : AppCompatActivity() {
 
         popupMenu.setOnMenuItemClickListener { item ->
             val itemId = item.itemId
-            if(itemId == 1) {
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (itemId == 1) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     requestCameraPermissions.launch(arrayOf(android.Manifest.permission.CAMERA))
                 } else {
-                    requestCameraPermissions.launch(arrayOf(android.Manifest.permission.CAMERA, android.Manifest.permission.WRITE_EXTERNAL_STORAGE))
+                    requestCameraPermissions.launch(
+                        arrayOf(
+                            android.Manifest.permission.CAMERA,
+                            android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+                        )
+                    )
                 }
-            } else if(itemId == 2) {
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            } else if (itemId == 2) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     pickImageGallery()
                 } else {
                     requestStoragePermissions.launch(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -152,23 +163,27 @@ class EditProfileActivity : AppCompatActivity() {
     private val requestCameraPermissions =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result ->
             var areAllGranted = true
-            for(isGranted in result.values) {
+            for (isGranted in result.values) {
                 areAllGranted = areAllGranted && isGranted
             }
-            if(areAllGranted) {
+            if (areAllGranted) {
                 pickImageCamera()
             } else {
-                Toast.makeText(this, "Camera or Storage or both permissions denied", Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    this,
+                    "Camera or Storage or both permissions denied",
+                    Toast.LENGTH_LONG
+                ).show()
             }
         }
 
     private fun pickImageCamera() {
-        Log.d(TAG, "pickImageCamera: ")
         val contentValues = ContentValues()
         contentValues.put(MediaStore.Images.Media.TITLE, "Temp_image_title")
         contentValues.put(MediaStore.Images.Media.DESCRIPTION, "Temp_image_description")
 
-        imageUri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+        imageUri =
+            contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
         cameraActivityResultlauncher.launch(intent)
@@ -176,13 +191,13 @@ class EditProfileActivity : AppCompatActivity() {
 
     private val cameraActivityResultlauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if(result.resultCode == Activity.RESULT_OK) {
+            if (result.resultCode == Activity.RESULT_OK) {
                 try {
                     Glide.with(this)
                         .load(imageUri)
                         .placeholder(R.drawable.ic_person_white)
                         .into(binding.ivEditProfileProfilePic)
-                } catch (e : Exception) {
+                } catch (e: Exception) {
                     Log.e(TAG, "cameraActivityResultlauncher: ", e)
                 }
             } else {
@@ -193,7 +208,7 @@ class EditProfileActivity : AppCompatActivity() {
 
     private val requestStoragePermissions =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-            if(isGranted) {
+            if (isGranted) {
                 pickImageGallery()
             } else {
                 Toast.makeText(this, "Storage permission denied", Toast.LENGTH_LONG).show()
@@ -201,7 +216,6 @@ class EditProfileActivity : AppCompatActivity() {
         }
 
     private fun pickImageGallery() {
-        Log.d(TAG, "pickImageGallery: ")
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
         galleryActivityResultlauncher.launch(intent)
@@ -209,7 +223,7 @@ class EditProfileActivity : AppCompatActivity() {
 
     private val galleryActivityResultlauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if(result.resultCode == Activity.RESULT_OK) {
+            if (result.resultCode == Activity.RESULT_OK) {
                 val data = result.data
                 imageUri = data!!.data
                 try {
@@ -217,7 +231,7 @@ class EditProfileActivity : AppCompatActivity() {
                         .load(imageUri)
                         .placeholder(R.drawable.ic_person_white)
                         .into(binding.ivEditProfileProfilePic)
-                } catch (e : Exception) {
+                } catch (e: Exception) {
                     Log.e(TAG, "cameraActivityResultlauncher: ", e)
                 }
             } else {
@@ -245,7 +259,7 @@ class EditProfileActivity : AppCompatActivity() {
         emergencyPhoneCode = binding.ccpEditProfileEmergency.selectedCountryCodeWithPlus
         emergencyPhoneNumber = binding.etEditProfileEmergencyPhone.text.toString().trim()
 
-        if(imageUri == null) {
+        if (imageUri == null) {
             updateProfileDb(null)
         } else {
             uploadProfileImageStorage()
@@ -253,7 +267,6 @@ class EditProfileActivity : AppCompatActivity() {
     }
 
     private fun uploadProfileImageStorage() {
-        Log.d(TAG, "uploadProfileImageStorage: ")
         progressDialog.setMessage("Uploading")
         progressDialog.show()
 
@@ -263,9 +276,9 @@ class EditProfileActivity : AppCompatActivity() {
             .addOnSuccessListener { taskSnapshot ->
                 // set imageUrl to firebase realtime
                 val uriTask = taskSnapshot.storage.downloadUrl
-                while(!uriTask.isSuccessful);
+                while (!uriTask.isSuccessful);
                 val uploadedImageUrl = uriTask.result.toString()
-                if(uriTask.isSuccessful) {
+                if (uriTask.isSuccessful) {
                     updateProfileDb(uploadedImageUrl)
                 }
             }.addOnFailureListener { e ->
@@ -289,13 +302,13 @@ class EditProfileActivity : AppCompatActivity() {
         hashMap["emergencyPhoneCode"] = emergencyPhoneCode
         hashMap["emergencyPhoneNumber"] = emergencyPhoneNumber
 
+        progressDialog.dismiss()
+
         val reference = FirebaseDatabase.getInstance().getReference("Users")
         reference.child("${firebaseAuth.uid}").updateChildren(hashMap).addOnSuccessListener {
-            progressDialog.dismiss()
             Toast.makeText(this, "Profile Updated", Toast.LENGTH_LONG).show()
             imageUri = null
         }.addOnFailureListener { e ->
-            progressDialog.dismiss()
             Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show()
         }
     }
