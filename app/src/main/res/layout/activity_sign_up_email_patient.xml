@@ -6,14 +6,14 @@
     android:layout_height="match_parent"
     android:background="@color/backColor"
     android:padding="20dp"
-    tools:context=".activity.SignUpEmailActivity">
+    tools:context=".activity.SignUpEmailPatientActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/ivSignupBack"
+            android:id="@+id/ivSignupPatientBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/baseline_arrow_back_ios_24"
@@ -21,7 +21,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tvSignupCreateANewAccount"
+            android:id="@+id/tvSignupPatientCreateANewAccount"
             style="@style/TextAppearance.MaterialComponents.Body1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tvSignupYourInformation"
+            android:id="@+id/tvSignupPatientYourInformation"
             style="@style/TextAppearance.MaterialComponents.Body1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -42,10 +42,10 @@
             android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvSignupCreateANewAccount"/>
+            app:layout_constraintTop_toBottomOf="@id/tvSignupPatientCreateANewAccount"/>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tfSignUpName"
+            android:id="@+id/tfSignUpPatientName"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -54,10 +54,10 @@
             app:boxBackgroundColor="@color/backColor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvSignupYourInformation">
+            app:layout_constraintTop_toBottomOf="@id/tvSignupPatientYourInformation">
 
             <EditText
-                android:id="@+id/etSignupName"
+                android:id="@+id/etSignupPatientName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Name"
@@ -66,7 +66,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tfSignupEmail"
+            android:id="@+id/tfSignupPatientEmail"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -75,10 +75,10 @@
             app:boxBackgroundColor="@color/backColor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tfSignUpName">
+            app:layout_constraintTop_toBottomOf="@+id/tfSignUpPatientName">
 
             <EditText
-                android:id="@+id/etSignupEmail"
+                android:id="@+id/etSignupPatientEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Email"
@@ -89,16 +89,16 @@
 
         <!--    Phone input layout-->
         <RelativeLayout
-            android:id="@+id/rlSignupPhoneInput"
+            android:id="@+id/rlSignupPatientPhoneInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:visibility="visible"
-            app:layout_constraintTop_toBottomOf="@+id/tfSignupEmail"
+            app:layout_constraintTop_toBottomOf="@+id/tfSignupPatientEmail"
             tools:layout_editor_absoluteX="20dp">
 
             <com.hbb20.CountryCodePicker
-                android:id="@+id/ccpSignup"
+                android:id="@+id/ccpSignupPatient"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -111,15 +111,15 @@
                 app:ccp_showNameCode="false" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tfSignupPhone"
+                android:id="@+id/tfSignupPatientPhone"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/ccpSignup"
+                android:layout_toEndOf="@id/ccpSignupPatient"
                 android:textColorHint="@color/grey">
 
                 <EditText
-                    android:id="@+id/etSignupPhone"
+                    android:id="@+id/etSignupPatientPhone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Phone"
@@ -131,7 +131,7 @@
         </RelativeLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tfSignupPassword"
+            android:id="@+id/tfSignupPatientPassword"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -139,11 +139,11 @@
             android:textColorHint="@color/grey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tfSignupEmail"
+            app:layout_constraintTop_toBottomOf="@id/tfSignupPatientEmail"
             app:passwordToggleEnabled="true">
 
             <EditText
-                android:id="@+id/etSignupPassword"
+                android:id="@+id/etSignupPatientPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Password"
@@ -153,7 +153,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tfSignupConfirmPassword"
+            android:id="@+id/tfSignupPatientConfirmPassword"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -161,11 +161,11 @@
             android:textColorHint="@color/grey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tfSignupPassword"
+            app:layout_constraintTop_toBottomOf="@id/tfSignupPatientPassword"
             app:passwordToggleEnabled="true">
 
             <EditText
-                android:id="@+id/etSignupConfirmPassword"
+                android:id="@+id/etSignupPatientConfirmPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Confirm Password"
@@ -175,7 +175,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
-            android:id="@+id/tvSignupEmergencyInformation"
+            android:id="@+id/tvSignupPatientEmergencyInformation"
             style="@style/TextAppearance.MaterialComponents.Body1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -184,10 +184,10 @@
             android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tfSignupConfirmPassword" />
+            app:layout_constraintTop_toBottomOf="@id/tfSignupPatientConfirmPassword" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tfSignUpEmergencyName"
+            android:id="@+id/tfSignUpPatientEmergencyName"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -195,10 +195,10 @@
             android:textColorHint="@color/grey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvSignupEmergencyInformation">
+            app:layout_constraintTop_toBottomOf="@id/tvSignupPatientEmergencyInformation">
 
             <EditText
-                android:id="@+id/etSignupEmergencyName"
+                android:id="@+id/etSignupPatientEmergencyName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Name"
@@ -207,7 +207,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tfSignupEmergencyEmail"
+            android:id="@+id/tfSignupPatientEmergencyEmail"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -215,10 +215,10 @@
             android:textColorHint="@color/grey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tfSignUpEmergencyName">
+            app:layout_constraintTop_toBottomOf="@+id/tfSignUpPatientEmergencyName">
 
             <EditText
-                android:id="@+id/etSignupEmergencyEmail"
+                android:id="@+id/etSignupPatientEmergencyEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Email"
@@ -229,16 +229,16 @@
 
         <!--    Phone input layout-->
         <RelativeLayout
-            android:id="@+id/rlSignupEmergencyPhoneInput"
+            android:id="@+id/rlSignupPatientEmergencyPhoneInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:visibility="visible"
-            app:layout_constraintTop_toBottomOf="@+id/tfSignupEmergencyEmail"
+            app:layout_constraintTop_toBottomOf="@+id/tfSignupPatientEmergencyEmail"
             tools:layout_editor_absoluteX="20dp">
 
             <com.hbb20.CountryCodePicker
-                android:id="@+id/ccpSignupEmergency"
+                android:id="@+id/ccpSignupPatientEmergency"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -251,15 +251,15 @@
                 app:ccp_showNameCode="false" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tfSignupEmergencyPhone"
+                android:id="@+id/tfSignupPatientEmergencyPhone"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/ccpSignupEmergency"
+                android:layout_toEndOf="@id/ccpSignupPatientEmergency"
                 android:textColorHint="@color/grey">
 
                 <EditText
-                    android:id="@+id/etSignupEmergencyPhone"
+                    android:id="@+id/etSignupPatientEmergencyPhone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Phone"
@@ -271,7 +271,7 @@
         </RelativeLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnSignup"
+            android:id="@+id/btnSignupPatient"
             android:layout_width="210dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="96dp"
@@ -280,7 +280,7 @@
             app:cornerRadius="30dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tfSignupEmergencyEmail" />
+            app:layout_constraintTop_toBottomOf="@id/tfSignupPatientEmergencyEmail" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

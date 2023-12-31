@@ -200,7 +200,7 @@ class LoginPhoneActivity : AppCompatActivity() {
             } else {
                 Log.d(TAG, "signInWithPhoneAuthCredential: Existing User, Logged In")
                 Toast.makeText(this, "Successfully Logged In", Toast.LENGTH_SHORT).show()
-                startActivity(Intent(this, HomeActivity::class.java))
+                startActivity(Intent(this, HomePatientActivity::class.java))
                 finishAffinity()
             }
         }.addOnFailureListener { e ->
@@ -239,7 +239,7 @@ class LoginPhoneActivity : AppCompatActivity() {
             progressDialog.dismiss()
             Log.d(TAG, "updateUserInfoDb: User Registered")
             Toast.makeText(this, "Successfully Logged In", Toast.LENGTH_SHORT).show()
-            startActivity(Intent(this, HomeActivity::class.java))
+            startActivity(Intent(this, HomePatientActivity::class.java))
             finishAffinity()
         }.addOnFailureListener { e ->
             progressDialog.dismiss()

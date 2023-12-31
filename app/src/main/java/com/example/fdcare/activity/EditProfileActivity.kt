@@ -53,7 +53,7 @@ class EditProfileActivity : AppCompatActivity() {
 
         // Go back
         binding.ivEditProfileBack.setOnClickListener {
-            startActivity(Intent(this, HomeActivity::class.java))
+            startActivity(Intent(this, HomePatientActivity::class.java))
             finish()
         }
 
@@ -75,7 +75,7 @@ class EditProfileActivity : AppCompatActivity() {
         progressDialog.setMessage("Loading...")
         progressDialog.show()
 
-        val ref = FirebaseDatabase.getInstance().getReference("Users")
+        val ref = FirebaseDatabase.getInstance().getReference("Patients")
         ref.child(firebaseAuth.uid!!).addValueEventListener(object : ValueEventListener {
 
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -288,7 +288,7 @@ class EditProfileActivity : AppCompatActivity() {
     }
 
     private fun updateProfileDb(uploadedImageUrl: String?) {
-        progressDialog.setMessage("Updating user info")
+        progressDialog.setMessage("Updating patient info")
         progressDialog.show()
 
         val hashMap = HashMap<String, Any?>()
@@ -304,9 +304,9 @@ class EditProfileActivity : AppCompatActivity() {
 
         progressDialog.dismiss()
 
-        val reference = FirebaseDatabase.getInstance().getReference("Users")
+        val reference = FirebaseDatabase.getInstance().getReference("Patients")
         reference.child("${firebaseAuth.uid}").updateChildren(hashMap).addOnSuccessListener {
-            Toast.makeText(this, "Profile Updated", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Patient Profile Updated", Toast.LENGTH_LONG).show()
             imageUri = null
         }.addOnFailureListener { e ->
             Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show()

@@ -4,14 +4,14 @@
     tools:showIn="navigation_view">
 
     <item
-        android:id="@+id/navProfile"
+        android:id="@+id/navPatientProfile"
         android:icon="@drawable/baseline_home_24"
-        android:title="Profile"/>
+        android:title="Patient Profile"/>
 
-    <item
-        android:id="@+id/navEditProfile"
-        android:icon="@drawable/baseline_person_24"
-        android:title="Edit profile"/>
+<!--    <item-->
+<!--        android:id="@+id/navEditProfile"-->
+<!--        android:icon="@drawable/baseline_person_24"-->
+<!--        android:title="Edit profile"/>-->
 
     <item
         android:id="@+id/navLogout"

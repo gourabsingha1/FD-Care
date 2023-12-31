@@ -1,0 +1,18 @@
+1) one to one mapping. Directed graph. Patient -> Caretaker. A caretaker can be a patient of another caretaker
+but a patient cannot have multiple caretakers or vice versa
+2) patient signs up with their details + their caretaker's details
+3) if no caretaker exists, notify the patient in app and vice versa
+4) caretaker signs up with their details
+5) accelerometer sends x, y, z coordinates to ML model
+6) ML model returns true if patient falls down
+7) a notification a received on caretaker's device + device rings until caretaker presses stop button
+
+note:
+1)
+2) when patient falls, the patient device looks for matching caretakerUid among all registered caretakers
+and then sends the notification to the matching caretaker.
+3) to make caretaker's device stop ringing, the caretaker has to press on Stop Ringing button or just close the app.
+4) when one of the patient or the caretaker registers, but the other hasn't or there is no link bw them yet,
+then it will show in the home activity as a reminder
+5) when you first open the app, it will show the icon while getting info in the background, whether the user is
+a patient or a caretaker or not yet registered. according to that, you will be redirected to the right activity

@@ -1,33 +1,19 @@
 package com.example.fdcare.activity
 
-import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import com.example.fdcare.R
 import com.example.fdcare.databinding.ActivityLoginOptionsBinding
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class LoginOptionsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginOptionsBinding
     lateinit var firebaseAuth: FirebaseAuth
-    private lateinit var mGoogleSignInClient: GoogleSignInClient
-    private lateinit var progressDialog: ProgressDialog
-
-    private companion object {
-        private const val TAG = "LOGIN_OPTIONS_TAG"
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,125 +23,39 @@ class LoginOptionsActivity : AppCompatActivity() {
         // Hide action bar
         supportActionBar?.hide()
 
-        // Setup ProgressDialog
-        progressDialog = ProgressDialog(this)
-        progressDialog.setCanceledOnTouchOutside(false)
-
         // initializations
         firebaseAuth = FirebaseAuth.getInstance()
+
         if(firebaseAuth.currentUser != null) {
-            startActivity(Intent(this, HomeActivity::class.java))
-            finishAffinity()
+
+            val ref = FirebaseDatabase.getInstance().getReference("Patients")
+            ref.child(firebaseAuth.uid!!).addValueEventListener(object: ValueEventListener {
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if(snapshot.exists()) {
+                        startActivity(Intent(this@LoginOptionsActivity, HomePatientActivity::class.java))
+                        finishAffinity()
+                    }
+                    else {
+                        startActivity(Intent(this@LoginOptionsActivity, HomeCaretakerActivity::class.java))
+                        finishAffinity()
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+            })
         }
 
-//        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-//            .requestIdToken(getString(R.string.default_web_client_id))
-//            .requestEmail()
-//            .build()
-//        mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
+        // Patient login
+        binding.btnLoginOptionsPatient.setOnClickListener {
+            startActivity(Intent(this, LogInEmailPatientActivity::class.java))
+        }
 
-        // Google login
-//        binding.btnLoginOptionsGoogle.setOnClickListener {
-//            googleLogin()
-//        }
-
-        // Phone login
-//        binding.btnLoginOptionsPhone.setOnClickListener {
-//            startActivity(Intent(this, LoginPhoneActivity::class.java))
-//        }
-
-        // Email login
-        binding.btnLoginOptionsEmail.setOnClickListener {
-            startActivity(Intent(this, LogInEmailActivity::class.java))
+        // Caretaker login
+        binding.btnLoginOptionsCaretaker.setOnClickListener {
+            startActivity(Intent(this, LogInEmailCaretakerActivity::class.java))
         }
     }
-
-//    private fun googleLogin() {
-//        Log.d(TAG, "googleLogin: ")
-//        val googleSignInIntent = mGoogleSignInClient.signInIntent
-//        googleSignInARL.launch(googleSignInIntent)
-//    }
-//
-//    private val googleSignInARL = registerForActivityResult(
-//        ActivityResultContracts.StartActivityForResult()
-//    ) { result ->
-//        Log.d(TAG, "googleSignInARL: ")
-//
-//        if(result.resultCode == RESULT_OK) {
-//            val data = result.data
-//            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-//            try {
-//                val account = task.getResult(ApiException::class.java)
-//                Log.d(TAG, "googleSignInARL: Account ID: ${account.id}")
-//                // SignIn Success. Let's signIn with Firebase Auth
-//                firebaseAuthWithGoogleAccount(account)
-//            } catch (e: Exception) {
-//                Log.e(TAG, "googleSignInARL: ", e)
-//                Toast.makeText(this, e.message, Toast.LENGTH_LONG).show()
-//            }
-//        } else {
-//            // User has cancelled Google SignIn
-//            Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show()
-//        }
-//    }
-//
-//    // create / login to google account
-//    private fun firebaseAuthWithGoogleAccount(account: GoogleSignInAccount) {
-//        val credential = GoogleAuthProvider.getCredential(account.idToken, null)
-//        firebaseAuth.signInWithCredential(credential).addOnSuccessListener { authResult ->
-//            if(authResult.additionalUserInfo!!.isNewUser) {
-//                Log.d(TAG, "firebaseAuthWithGoogleAccount: New User, Account Created")
-//                updateUserInfoDb()
-//            } else {
-//                Log.d(TAG, "firebaseAuthWithGoogleAccount: Existing User, Logged In")
-//                Toast.makeText(this, "Successfully Logged In", Toast.LENGTH_SHORT).show()
-//                startActivity(Intent(this, HomeActivity::class.java))
-//                finishAffinity()
-//            }
-//        }.addOnFailureListener { e ->
-//            Log.e(TAG, "firebaseAuthWithGoogleAccount: ", e)
-//            Toast.makeText(this, e.message, Toast.LENGTH_LONG).show()
-//        }
-//    }
-//
-//    // If new google user, then push user in firebase realtime db
-//    private fun updateUserInfoDb() {
-//        Log.d(TAG, "updateUserInfoDb: ")
-//        progressDialog.setMessage("Saving User Info")
-//        progressDialog.show()
-//
-//        val name = firebaseAuth.currentUser?.displayName
-//        val registeredUserEmail = firebaseAuth.currentUser!!.email
-//        val registeredUserId = firebaseAuth.uid
-//        val timestamp = System.currentTimeMillis()
-//
-//        // setup data to save in firebase realtime db
-//        // most of the data will be empty and will set in edit profile
-//        val hashMap = HashMap<String, Any?>()
-//        hashMap["name"] = name
-//        hashMap["email"] = registeredUserEmail
-//        hashMap["uid"] = registeredUserId
-//        hashMap["phoneCode"] = ""
-//        hashMap["phoneNumber"] = ""
-//        hashMap["profileImageUrl"] = ""
-//        hashMap["onlineStatus"] = true
-//        hashMap["emergencyName"] = ""
-//        hashMap["emergencyEmail"] = ""
-//        hashMap["emergencyPhoneCode"] = ""
-//        hashMap["emergencyPhoneNumber"] = ""
-//
-//        // set data to firebase realtime db
-//        val reference = FirebaseDatabase.getInstance().getReference("Users")
-//        reference.child(registeredUserId!!).setValue(hashMap).addOnSuccessListener {
-//            Log.d(TAG, "updateUserInfoDb: User Registered")
-//            progressDialog.dismiss()
-//            Toast.makeText(this, "Successfully Logged In", Toast.LENGTH_SHORT).show()
-//            startActivity(Intent(this, HomeActivity::class.java))
-//            finishAffinity()
-//        }.addOnFailureListener { e ->
-//            Log.e(TAG, "updateUserInfoDb: ", e)
-//            Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show()
-//            progressDialog.dismiss()
-//        }
-//    }
 }
