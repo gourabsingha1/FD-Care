@@ -154,7 +154,9 @@ class LogInEmailCaretakerActivity : AppCompatActivity() {
     }
 
     private fun setCaretakerOnlineStatus(value : Boolean) {
-        FirebaseDatabase.getInstance().getReference("Caretakers")
-            .child(firebaseAuth.uid!!).child("onlineStatus").setValue(value.toString())
+        if(firebaseAuth.currentUser != null) {
+            FirebaseDatabase.getInstance().getReference("Caretakers")
+                .child(firebaseAuth.uid!!).child("onlineStatus").setValue(value.toString())
+        }
     }
 }

@@ -154,7 +154,9 @@ class LogInEmailPatientActivity : AppCompatActivity() {
     }
 
     private fun setPatientOnlineStatus(value : Boolean) {
-        FirebaseDatabase.getInstance().getReference("Patients")
-            .child(firebaseAuth.uid!!).child("onlineStatus").setValue(value.toString())
+        if(firebaseAuth.currentUser != null) {
+            FirebaseDatabase.getInstance().getReference("Patients")
+                .child(firebaseAuth.uid!!).child("onlineStatus").setValue(value.toString())
+        }
     }
 }

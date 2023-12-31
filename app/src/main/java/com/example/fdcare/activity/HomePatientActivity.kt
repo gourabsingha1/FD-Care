@@ -90,8 +90,10 @@ class HomePatientActivity : AppCompatActivity(), SensorEventListener {
                     setPatientOnlineStatus(false)
 
                     firebaseAuth.signOut()
-                    startActivity(Intent(this, LoginOptionsActivity::class.java))
-                    finishAffinity()
+                    Intent(this, SplashActivity::class.java).also { intent ->
+                        startActivity(intent)
+                        finishAffinity()
+                    }
                 }
             }
             true
@@ -277,7 +279,9 @@ class HomePatientActivity : AppCompatActivity(), SensorEventListener {
     }
 
     private fun setPatientOnlineStatus(value : Boolean) {
-        FirebaseDatabase.getInstance().getReference("Patients")
-            .child(firebaseAuth.uid!!).child("onlineStatus").setValue(value.toString())
+        if(firebaseAuth.currentUser != null) {
+            FirebaseDatabase.getInstance().getReference("Patients")
+                .child(firebaseAuth.uid!!).child("onlineStatus").setValue(value.toString())
+        }
     }
 }

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
     <!-- Permissions -->
     <uses-feature
         android:name="android.hardware.camera"
@@ -26,8 +25,6 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <!-- Other necessary permissions based on your app's requirements -->
-
 
     <application
         android:allowBackup="true"
@@ -50,7 +47,7 @@
 
         <activity
             android:name=".activity.HomeCaretakerActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".activity.ProfilePatientActivity"
             android:exported="false"
@@ -85,8 +82,11 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activity.LoginOptionsActivity"
-            android:exported="true"
-            android:windowSoftInputMode="adjustResize">
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".activity.SplashActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

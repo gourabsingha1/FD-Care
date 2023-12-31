@@ -49,7 +49,7 @@ class HomeCaretakerActivity : AppCompatActivity() {
             setCaretakerOnlineStatus(false)
 
             firebaseAuth.signOut()
-            startActivity(Intent(this, LoginOptionsActivity::class.java))
+            startActivity(Intent(this, SplashActivity::class.java))
             finishAffinity()
         }
     }
@@ -116,7 +116,9 @@ class HomeCaretakerActivity : AppCompatActivity() {
     }
 
     private fun setCaretakerOnlineStatus(value : Boolean) {
-        FirebaseDatabase.getInstance().getReference("Caretakers")
-            .child(firebaseAuth.uid!!).child("onlineStatus").setValue(value.toString())
+        if(firebaseAuth.currentUser != null) {
+            FirebaseDatabase.getInstance().getReference("Caretakers")
+                .child(firebaseAuth.uid!!).child("onlineStatus").setValue(value.toString())
+        }
     }
 }
