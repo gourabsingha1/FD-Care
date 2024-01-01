@@ -92,9 +92,17 @@ class SignUpEmailPatientActivity : AppCompatActivity() {
         } else if (caretakerEmail.isEmpty()) {
             binding.etSignupPatientCaretakerEmail.error = "Enter caretaker email"
             binding.etSignupPatientCaretakerEmail.requestFocus()
+        } else if(!Patterns.EMAIL_ADDRESS.matcher(caretakerEmail).matches()) {
+            binding.etSignupPatientEmail.error = "Invalid email format"
+            binding.etSignupPatientEmail.requestFocus()
         } else if (caretakerPhoneNumber.length != 10) {
             binding.etSignupPatientCaretakerPhone.error = "Invalid phone number"
             binding.etSignupPatientCaretakerPhone.requestFocus()
+        } else if (email == caretakerEmail) {
+            binding.etSignupPatientEmail.error = "Same patient and caretaker email"
+            binding.etSignupPatientEmail.requestFocus()
+            binding.etSignupPatientCaretakerEmail.error = "Same patient and caretaker email"
+            binding.etSignupPatientCaretakerEmail.requestFocus()
         } else {
             signupFirebase()
         }
