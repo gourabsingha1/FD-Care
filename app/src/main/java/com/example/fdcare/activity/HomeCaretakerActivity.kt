@@ -5,13 +5,18 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.provider.Settings
 import android.util.Log
 import android.view.Window
 import android.widget.Button
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationManagerCompat
 import com.bumptech.glide.Glide
 import com.example.fdcare.MediaPlayerSingleton
 import com.example.fdcare.R
@@ -41,6 +46,29 @@ class HomeCaretakerActivity : AppCompatActivity() {
         // Firebase Authorization
         firebaseAuth = FirebaseAuth.getInstance()
         FirebaseApp.initializeApp(this)
+
+        // Grant notification permission
+        if(!NotificationManagerCompat.from(this).areNotificationsEnabled()) {
+            val dialog = Dialog(this)
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialog.setCancelable(false)
+            dialog.setContentView(R.layout.add_contact_dialog)
+            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+            val tvAddContactMessage = dialog.findViewById<TextView>(R.id.tvAddContactMessage)
+            tvAddContactMessage.text = "Grant notification permission"
+
+            dialog.findViewById<Button>(R.id.btnDismiss).text = "Open settings"
+            val btnDismiss = dialog.findViewById<Button>(R.id.btnDismiss)
+            btnDismiss.setOnClickListener {
+                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                intent.data = Uri.fromParts("package", packageName, null)
+                startActivity(intent)
+                dialog.dismiss()
+            }
+
+            dialog.show()
+        }
 
         // Load Data
         loadMyData()

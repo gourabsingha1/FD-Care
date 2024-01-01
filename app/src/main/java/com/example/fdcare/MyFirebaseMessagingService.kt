@@ -35,8 +35,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         // Set the volume to maximum for the ringtone
         val audioManager = this.getSystemService(AUDIO_SERVICE) as AudioManager
         audioManager.setStreamVolume(
-            AudioManager.STREAM_RING, audioManager.getStreamMaxVolume(
-                AudioManager.STREAM_RING
+            AudioManager.STREAM_MUSIC, audioManager.getStreamMaxVolume(
+                AudioManager.STREAM_MUSIC
             ), 0
         )
 
