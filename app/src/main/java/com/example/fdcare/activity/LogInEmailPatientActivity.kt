@@ -3,6 +3,7 @@ package com.example.fdcare.activity
 import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -90,7 +91,7 @@ class LogInEmailPatientActivity : AppCompatActivity() {
                     finishAffinity()
                 }
             } else {
-                Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Invalid Email or Password", Toast.LENGTH_SHORT).show()
                 progressDialog.dismiss()
             }
         }
@@ -106,17 +107,16 @@ class LogInEmailPatientActivity : AppCompatActivity() {
 
             // Get new FCM registration token
             val newToken = task.result
-            val reference = FirebaseDatabase.getInstance().getReference("Patients")
-            reference.child("${firebaseAuth.uid}").child("fcmToken").setValue(newToken)
+            FirebaseDatabase.getInstance().getReference("Patients").child(firebaseAuth.uid!!).child("token").setValue(newToken)
         })
     }
 
     private fun setCaretakerUid() {
         // check caretakerUid is set or not in O(1) time
         FirebaseDatabase.getInstance().getReference("Patients")
-            .child("${firebaseAuth.uid}").addValueEventListener(object : ValueEventListener {
+            .child(firebaseAuth.uid!!).addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    val emergencyEmail = snapshot.child("emergencyEmail").value
+                    val caretakerEmail = snapshot.child("caretakerEmail").value
                     var caretakerUid = snapshot.child("caretakerUid").value
 
                     if(caretakerUid == "") {
@@ -125,14 +125,13 @@ class LogInEmailPatientActivity : AppCompatActivity() {
                             .addValueEventListener(object: ValueEventListener {
                                 override fun onDataChange(snapshot: DataSnapshot) {
                                     for(ds in snapshot.children) {
-                                        val caretakerEmail = "${ds.child("email").value}"
+                                        val email = "${ds.child("email").value}"
                                         caretakerUid = "${ds.child("uid").value}"
 
-                                        if(caretakerEmail == emergencyEmail) {
+                                        if(caretakerEmail == email) {
                                             // set caretakerUid
                                             FirebaseDatabase.getInstance().getReference("Patients")
-                                                .child("${firebaseAuth.uid}").child("caretakerUid")
-                                                .setValue(caretakerUid)
+                                                .child(firebaseAuth.uid!!).child("caretakerUid").setValue(caretakerUid)
                                             return
                                         }
                                     }
@@ -140,14 +139,14 @@ class LogInEmailPatientActivity : AppCompatActivity() {
                                 }
 
                                 override fun onCancelled(error: DatabaseError) {
-
+                                    Log.d("dbError", error.message)
                                 }
                             })
                     }
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
+                    Log.d("dbError", error.message)
                 }
 
             })

@@ -42,7 +42,7 @@
             android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvSignupPatientCreateANewAccount"/>
+            app:layout_constraintTop_toBottomOf="@id/tvSignupPatientCreateANewAccount" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tfSignUpPatientName"
@@ -175,19 +175,19 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
-            android:id="@+id/tvSignupPatientEmergencyInformation"
+            android:id="@+id/tvSignupPatientCaretakerInformation"
             style="@style/TextAppearance.MaterialComponents.Body1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
-            android:text="Emergency Information: "
+            android:text="Caretaker Information: "
             android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tfSignupPatientConfirmPassword" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tfSignUpPatientEmergencyName"
+            android:id="@+id/tfSignUpPatientCaretakerName"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -195,19 +195,19 @@
             android:textColorHint="@color/grey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvSignupPatientEmergencyInformation">
+            app:layout_constraintTop_toBottomOf="@id/tvSignupPatientCaretakerInformation">
 
             <EditText
-                android:id="@+id/etSignupPatientEmergencyName"
+                android:id="@+id/etSignupPatientCaretakerName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Name"
+                android:hint="Caretaker Name"
                 android:textColor="@color/white" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tfSignupPatientEmergencyEmail"
+            android:id="@+id/tfSignupPatientCaretakerEmail"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -215,13 +215,13 @@
             android:textColorHint="@color/grey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tfSignUpPatientEmergencyName">
+            app:layout_constraintTop_toBottomOf="@+id/tfSignUpPatientCaretakerName">
 
             <EditText
-                android:id="@+id/etSignupPatientEmergencyEmail"
+                android:id="@+id/etSignupPatientCaretakerEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Email"
+                android:hint="Caretaker Email"
                 android:inputType="textEmailAddress"
                 android:textColor="@color/white" />
 
@@ -229,16 +229,16 @@
 
         <!--    Phone input layout-->
         <RelativeLayout
-            android:id="@+id/rlSignupPatientEmergencyPhoneInput"
+            android:id="@+id/rlSignupPatientCaretakerPhoneInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:visibility="visible"
-            app:layout_constraintTop_toBottomOf="@+id/tfSignupPatientEmergencyEmail"
+            app:layout_constraintTop_toBottomOf="@+id/tfSignupPatientCaretakerEmail"
             tools:layout_editor_absoluteX="20dp">
 
             <com.hbb20.CountryCodePicker
-                android:id="@+id/ccpSignupPatientEmergency"
+                android:id="@+id/ccpSignupPatientCaretaker"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -251,18 +251,18 @@
                 app:ccp_showNameCode="false" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tfSignupPatientEmergencyPhone"
+                android:id="@+id/tfSignupPatientCaretakerPhone"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/ccpSignupPatientEmergency"
+                android:layout_toEndOf="@id/ccpSignupPatientCaretaker"
                 android:textColorHint="@color/grey">
 
                 <EditText
-                    android:id="@+id/etSignupPatientEmergencyPhone"
+                    android:id="@+id/etSignupPatientCaretakerPhone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Phone"
+                    android:hint="Caretaker Phone"
                     android:inputType="phone"
                     android:textColor="@color/white" />
 
@@ -280,7 +280,7 @@
             app:cornerRadius="30dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tfSignupPatientEmergencyEmail" />
+            app:layout_constraintTop_toBottomOf="@id/tfSignupPatientCaretakerEmail" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

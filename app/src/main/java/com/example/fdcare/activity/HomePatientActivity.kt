@@ -1,14 +1,19 @@
 package com.example.fdcare.activity
 
+import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
+import android.view.Window
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -68,8 +73,12 @@ class HomePatientActivity : AppCompatActivity(), SensorEventListener {
 
         // Send notification
         binding.btnSendNotification.setOnClickListener {
-            getCaretakerUid()
+            // We need caretaker's token to send notification
+            getCaretakerDeviceToken()
         }
+
+        // If caretaker does not exist, a dialog will pop up
+        checkPatientsCaretaker()
     }
 
 
@@ -156,7 +165,7 @@ class HomePatientActivity : AppCompatActivity(), SensorEventListener {
             if (acceleration1 > 10) {
                 Toast.makeText(this, "Call Emergency!", Toast.LENGTH_SHORT).show()
                 // Send notification to caretaker
-//                getCaretakerEmail()
+//                getCaretakerDeviceToken()
             }
         }
     }
@@ -172,55 +181,27 @@ class HomePatientActivity : AppCompatActivity(), SensorEventListener {
 
 
     // **** For sending notification ****
-    private fun getCaretakerUid() {
-        FirebaseDatabase.getInstance().getReference("Patients")
-            .child(firebaseAuth.uid!!)
+    private fun getCaretakerDeviceToken() {
+        FirebaseDatabase.getInstance().getReference("Patients").child(firebaseAuth.uid!!).child("caretakerToken")
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    val caretakerUid = "${snapshot.child("caretakerUid").value}"
-                    getCaretakerDeviceToken(caretakerUid)
+                    val caretakerToken = snapshot.value.toString()
+                    sendNotification(caretakerToken)
+                    makeItRing(caretakerToken)
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
+                    Log.d("dbError", error.message)
                 }
 
             })
     }
 
-    private fun getCaretakerDeviceToken(caretakerUid: String) {
-        FirebaseDatabase.getInstance().getReference("Caretakers")
-            .addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    for (ds in snapshot.children) {
-                        val uid = "${ds.child("uid").value}"
-                        if (uid == caretakerUid) {
-                            // patient's caretaker found. get the token
-                            val caretakerDeviceToken = "${ds.child("fcmToken").value}"
-                            val onlineStatus = "${ds.child("onlineStatus").value}"
-
-                            // if caretaker is logged in their device, they will receive the notification
-                            if(onlineStatus == "true") {
-                                sendNotification(caretakerDeviceToken)
-                                makeItRing(caretakerDeviceToken)
-                            }
-                            break
-                        }
-                    }
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
-                }
-
-            })
-    }
-
-    private fun sendNotification(caretakerDeviceToken: String) {
+    private fun sendNotification(caretakerToken: String) {
         val title = "Emergency"
         val body = "Patient Fell Down"
         val notificationBody = JSONObject().apply {
-            put("to", caretakerDeviceToken)
+            put("to", caretakerToken)
             put("notification", JSONObject().apply {
                 put("title", title)
                 put("body", body)
@@ -247,14 +228,14 @@ class HomePatientActivity : AppCompatActivity(), SensorEventListener {
         })
     }
 
-    private fun makeItRing(caretakerDeviceToken: String) {
+    private fun makeItRing(caretakerToken: String) {
         val additionalData = JSONObject()
         additionalData.put("call_action", "initiate_call")
         additionalData.put("phone_number", "8794451269")
         additionalData.put("start_ringing", "true")
 
         val notificationBody = JSONObject().apply {
-            put("to", caretakerDeviceToken)
+            put("to", caretakerToken)
             put("data", additionalData)
         }.toString()
 
@@ -283,5 +264,43 @@ class HomePatientActivity : AppCompatActivity(), SensorEventListener {
             FirebaseDatabase.getInstance().getReference("Patients")
                 .child(firebaseAuth.uid!!).child("onlineStatus").setValue(value.toString())
         }
+    }
+
+    // Check if patient has a caretaker. If not, show dialog
+    private fun checkPatientsCaretaker() {
+        // check caretakerUid is set or not in O(1) time
+        FirebaseDatabase.getInstance().getReference("Patients")
+            .child(firebaseAuth.uid!!).addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val caretakerUid = "${snapshot.child("caretakerUid").value}"
+                    val caretakerEmail = "${snapshot.child("caretakerEmail").value}"
+                    if(caretakerUid == "") {
+                        showDialog("Please register your caretaker with email:\n\n$caretakerEmail")
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.d("dbError", error.message)
+                }
+
+            })
+    }
+
+    // Show dialog
+    private fun showDialog(message : String) {
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.add_contact_dialog)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val tvAddContactMessage = dialog.findViewById<TextView>(R.id.tvAddContactMessage)
+        tvAddContactMessage.text = message
+        val btnDismiss = dialog.findViewById<Button>(R.id.btnDismiss)
+        btnDismiss.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 }

@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Patterns
 import android.widget.Toast
-import com.example.fdcare.activity.HomePatientActivity
 import com.example.fdcare.databinding.ActivitySignUpEmailPatientBinding
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
@@ -24,10 +23,10 @@ class SignUpEmailPatientActivity : AppCompatActivity() {
     private var phoneNumber = ""
     private var password = ""
     private var confirmPassword = ""
-    private var emergencyName = ""
-    private var emergencyEmail = ""
-    private var emergencyPhoneCode = ""
-    private var emergencyPhoneNumber = ""
+    private var caretakerName = ""
+    private var caretakerEmail = ""
+    private var caretakerPhoneCode = ""
+    private var caretakerPhoneNumber = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,38 +63,38 @@ class SignUpEmailPatientActivity : AppCompatActivity() {
         phoneNumber = binding.etSignupPatientPhone.text.toString().trim()
         password = binding.etSignupPatientPassword.text.toString().trim()
         confirmPassword = binding.etSignupPatientConfirmPassword.text.toString().trim()
-        emergencyName = binding.etSignupPatientEmergencyName.text.toString().trim()
-        emergencyEmail = binding.etSignupPatientEmergencyEmail.text.toString().trim()
-        emergencyPhoneCode = binding.ccpSignupPatientEmergency.selectedCountryCodeWithPlus
-        emergencyPhoneNumber = binding.etSignupPatientEmergencyPhone.text.toString().trim()
+        caretakerName = binding.etSignupPatientCaretakerName.text.toString().trim()
+        caretakerEmail = binding.etSignupPatientCaretakerEmail.text.toString().trim()
+        caretakerPhoneCode = binding.ccpSignupPatientCaretaker.selectedCountryCodeWithPlus
+        caretakerPhoneNumber = binding.etSignupPatientCaretakerPhone.text.toString().trim()
 
-        if(name.isEmpty()) {
-            binding.etSignupPatientName.error = "Enter your name"
+        if (name.isEmpty()) {
+            binding.etSignupPatientName.error = "Enter name"
             binding.etSignupPatientName.requestFocus()
-        } else if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             binding.etSignupPatientEmail.error = "Invalid email format"
             binding.etSignupPatientEmail.requestFocus()
-        } else if(phoneNumber.length != 10) {
+        } else if (phoneNumber.length != 10) {
             binding.etSignupPatientPhone.error = "Invalid phone number"
             binding.etSignupPatientPhone.requestFocus()
-        } else if(password.isEmpty()) {
+        } else if (password.isEmpty()) {
             binding.etSignupPatientPassword.error = "Enter password"
             binding.etSignupPatientPassword.requestFocus()
-        } else if(confirmPassword.isEmpty()) {
+        } else if (confirmPassword.isEmpty()) {
             binding.etSignupPatientConfirmPassword.error = "Confirm password"
             binding.etSignupPatientConfirmPassword.requestFocus()
-        } else if(password != confirmPassword) {
+        } else if (password != confirmPassword) {
             binding.etSignupPatientConfirmPassword.error = "Password doesn't match"
             binding.etSignupPatientConfirmPassword.requestFocus()
-        } else if(emergencyName.isEmpty()) {
-            binding.etSignupPatientEmergencyName.error = "Enter an emergency name"
-            binding.etSignupPatientEmergencyName.requestFocus()
-        } else if(emergencyEmail.isEmpty()) {
-            binding.etSignupPatientEmergencyEmail.error = "Enter an emergency email"
-            binding.etSignupPatientEmergencyEmail.requestFocus()
-        } else if(emergencyPhoneNumber.length != 10) {
-            binding.etSignupPatientEmergencyPhone.error = "Invalid phone number"
-            binding.etSignupPatientEmergencyPhone.requestFocus()
+        } else if (caretakerName.isEmpty()) {
+            binding.etSignupPatientCaretakerName.error = "Enter caretaker name"
+            binding.etSignupPatientCaretakerName.requestFocus()
+        } else if (caretakerEmail.isEmpty()) {
+            binding.etSignupPatientCaretakerEmail.error = "Enter caretaker email"
+            binding.etSignupPatientCaretakerEmail.requestFocus()
+        } else if (caretakerPhoneNumber.length != 10) {
+            binding.etSignupPatientCaretakerPhone.error = "Invalid phone number"
+            binding.etSignupPatientCaretakerPhone.requestFocus()
         } else {
             signupFirebase()
         }
@@ -110,8 +109,8 @@ class SignUpEmailPatientActivity : AppCompatActivity() {
         val email = binding.etSignupPatientEmail.text.toString()
         val password = binding.etSignupPatientPassword.text.toString()
 
-        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener{
-            if(it.isSuccessful) {
+        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
+            if (it.isSuccessful) {
                 updateUserInfo()
             } else {
                 Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
@@ -131,26 +130,25 @@ class SignUpEmailPatientActivity : AppCompatActivity() {
 
             val token = task.result
 
-            val registeredUserEmail = firebaseAuth.currentUser!!.email
-            val registeredUserId = firebaseAuth.uid
             val hashMap = HashMap<String, Any?>()
+            hashMap["uid"] = firebaseAuth.uid
             hashMap["name"] = name
-            hashMap["email"] = registeredUserEmail
-            hashMap["uid"] = registeredUserId
+            hashMap["email"] = email
             hashMap["phoneCode"] = phoneCode
             hashMap["phoneNumber"] = phoneNumber
             hashMap["profileImageUrl"] = ""
-            hashMap["onlineStatus"] = true
-            hashMap["emergencyName"] = emergencyName
-            hashMap["emergencyEmail"] = emergencyEmail
-            hashMap["emergencyPhoneCode"] = emergencyPhoneCode
-            hashMap["emergencyPhoneNumber"] = emergencyPhoneNumber
-            hashMap["fcmToken"] = token
+            hashMap["token"] = token
+            hashMap["onlineStatus"] = "true"
             hashMap["caretakerUid"] = ""
+            hashMap["caretakerName"] = caretakerName
+            hashMap["caretakerEmail"] = caretakerEmail
+            hashMap["caretakerPhoneCode"] = caretakerPhoneCode
+            hashMap["caretakerPhoneNumber"] = caretakerPhoneNumber
+            hashMap["caretakerToken"] = ""
 
             // set data to firebase realtime db
             val reference = FirebaseDatabase.getInstance().getReference("Patients")
-            reference.child(registeredUserId!!).setValue(hashMap).addOnSuccessListener {
+            reference.child(firebaseAuth.uid!!).setValue(hashMap).addOnSuccessListener {
                 Toast.makeText(this, "Successfully Signed Up", Toast.LENGTH_SHORT).show()
                 startActivity(Intent(this, HomePatientActivity::class.java))
                 finishAffinity()

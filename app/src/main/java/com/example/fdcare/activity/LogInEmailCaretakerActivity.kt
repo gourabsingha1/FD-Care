@@ -3,6 +3,7 @@ package com.example.fdcare.activity
 import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -60,10 +61,10 @@ class LogInEmailCaretakerActivity : AppCompatActivity() {
         email = binding.etLoginEmailCaretakerEmail.text.toString().trim()
         password = binding.etLoginEmailCaretakerPassword.text.toString().trim()
 
-        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             binding.etLoginEmailCaretakerEmail.error = "Invalid Email Format"
             binding.etLoginEmailCaretakerEmail.requestFocus()
-        } else if(password.isEmpty()) {
+        } else if (password.isEmpty()) {
             binding.etLoginEmailCaretakerPassword.error = "Enter Password"
             binding.etLoginEmailCaretakerPassword.requestFocus()
         } else {
@@ -89,7 +90,7 @@ class LogInEmailCaretakerActivity : AppCompatActivity() {
                     finishAffinity()
                 }
             } else {
-                Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Invalid Email or Password", Toast.LENGTH_SHORT).show()
                 progressDialog.dismiss()
             }
         }
@@ -105,8 +106,26 @@ class LogInEmailCaretakerActivity : AppCompatActivity() {
 
             // Get new FCM registration token
             val newToken = task.result
-            val reference = FirebaseDatabase.getInstance().getReference("Caretakers")
-            reference.child("${firebaseAuth.uid}").child("fcmToken").setValue(newToken)
+
+            // Update caretakers token in caretaker list
+            FirebaseDatabase.getInstance().getReference("Caretakers").child(firebaseAuth.uid!!)
+                .child("token").setValue(newToken)
+
+            // Update caretakers token in patient list
+            FirebaseDatabase.getInstance().getReference("Caretakers").child(firebaseAuth.uid!!)
+                .child("patientUid")
+                .addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        val patientUid = snapshot.value.toString()
+                        FirebaseDatabase.getInstance().getReference("Patients").child(patientUid)
+                            .child("caretakerToken").setValue(newToken)
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        Log.d("dbError", error.message)
+                    }
+
+                })
         })
     }
 
@@ -119,19 +138,20 @@ class LogInEmailCaretakerActivity : AppCompatActivity() {
                     var patientUid = snapshot.child("patientUid").value
 
                     // check patientUid is set or not in O(1) time
-                    if(patientUid == "") {
+                    if (patientUid == "") {
                         // scan all patients with emergency email as caretaker's email
                         FirebaseDatabase.getInstance().getReference("Patients")
-                            .addValueEventListener(object: ValueEventListener {
+                            .addValueEventListener(object : ValueEventListener {
                                 override fun onDataChange(snapshot: DataSnapshot) {
-                                    for(ds in snapshot.children) {
+                                    for (ds in snapshot.children) {
                                         val emergencyEmail = "${ds.child("emergencyEmail").value}"
                                         patientUid = "${ds.child("uid").value}"
 
-                                        if(emergencyEmail == email) {
+                                        if (emergencyEmail == email) {
                                             // set patientUid
-                                            FirebaseDatabase.getInstance().getReference("Caretakers")
-                                                .child("${firebaseAuth.uid}").child("patientUid")
+                                            FirebaseDatabase.getInstance()
+                                                .getReference("Caretakers")
+                                                .child(firebaseAuth.uid!!).child("patientUid")
                                                 .setValue(patientUid)
                                             return
                                         }
@@ -140,21 +160,21 @@ class LogInEmailCaretakerActivity : AppCompatActivity() {
                                 }
 
                                 override fun onCancelled(error: DatabaseError) {
-
+                                    Log.d("dbError", error.message)
                                 }
                             })
                     }
                 }
 
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
+                override fun onCancelled(error: DatabaseError) {
+                    Log.d("dbError", error.message)
+                }
 
-        })
+            })
     }
 
-    private fun setCaretakerOnlineStatus(value : Boolean) {
-        if(firebaseAuth.currentUser != null) {
+    private fun setCaretakerOnlineStatus(value: Boolean) {
+        if (firebaseAuth.currentUser != null) {
             FirebaseDatabase.getInstance().getReference("Caretakers")
                 .child(firebaseAuth.uid!!).child("onlineStatus").setValue(value.toString())
         }

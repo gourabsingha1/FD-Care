@@ -22,7 +22,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tvProfilePatientProfile"
+            android:id="@+id/tvProfilePatientPatientProfile"
             style="@style/TextAppearance.MaterialComponents.Body1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
             android:scaleType="centerCrop"
             android:layout_marginTop="23dp"
             android:src="@drawable/ic_person_white"
-            app:layout_constraintTop_toBottomOf="@id/tvProfilePatientProfile"
+            app:layout_constraintTop_toBottomOf="@id/tvProfilePatientPatientProfile"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:shapeAppearanceOverlay="@style/ImageStyle_Circle" />
@@ -86,7 +86,7 @@
             tools:text="+919876543210" />
 
         <TextView
-            android:id="@+id/tvProfilePatientEmergencyName"
+            android:id="@+id/tvProfilePatientCaretakerName"
             style="@style/TextAppearance.MaterialComponents.Body1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -96,33 +96,33 @@
             app:layout_constraintEnd_toEndOf="@+id/tvProfilePatientPhone"
             app:layout_constraintStart_toStartOf="@+id/tvProfilePatientPhone"
             app:layout_constraintTop_toBottomOf="@id/tvProfilePatientPhone"
-            tools:text="Emergency name" />
+            tools:text="Caretaker name" />
 
         <TextView
-            android:id="@+id/tvProfilePatientEmergencyEmail"
+            android:id="@+id/tvProfilePatientCaretakerEmail"
             style="@style/TextAppearance.MaterialComponents.Body1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:textColor="@color/white"
             android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="@+id/tvProfilePatientEmergencyName"
-            app:layout_constraintStart_toStartOf="@+id/tvProfilePatientEmergencyName"
-            app:layout_constraintTop_toBottomOf="@id/tvProfilePatientEmergencyName"
-            tools:text="Emergency email" />
+            app:layout_constraintEnd_toEndOf="@+id/tvProfilePatientCaretakerName"
+            app:layout_constraintStart_toStartOf="@+id/tvProfilePatientCaretakerName"
+            app:layout_constraintTop_toBottomOf="@id/tvProfilePatientCaretakerName"
+            tools:text="Caretaker email" />
 
         <TextView
-            android:id="@+id/tvProfilePatientEmergencyPhone"
+            android:id="@+id/tvProfilePatientCaretakerPhone"
             style="@style/TextAppearance.MaterialComponents.Body1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:textColor="@color/white"
             android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="@+id/tvProfilePatientEmergencyEmail"
-            app:layout_constraintStart_toStartOf="@+id/tvProfilePatientEmergencyEmail"
-            app:layout_constraintTop_toBottomOf="@id/tvProfilePatientEmergencyEmail"
-            tools:text="Emergency phone" />
+            app:layout_constraintEnd_toEndOf="@+id/tvProfilePatientCaretakerEmail"
+            app:layout_constraintStart_toStartOf="@+id/tvProfilePatientCaretakerEmail"
+            app:layout_constraintTop_toBottomOf="@id/tvProfilePatientCaretakerEmail"
+            tools:text="Caretaker phone" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
